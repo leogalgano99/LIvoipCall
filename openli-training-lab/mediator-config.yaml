@@ -1,0 +1,23 @@
+operatorid: POLIBA
+
+listenport: 12009
+listenaddr: 172.19.0.4
+
+provisioneraddr: 172.19.0.3
+provisionerport: 9002
+
+mediatorid: 1
+
+etsitls: no
+
+#tlscert: <TLSCERT>
+#tlskey: <TLSKEY>
+#tlsca: <TLSCA>
+
+RMQenabled: false
+#RMQname: "RMQNAME"
+#RMQpass: "RMQPASSWORD"
+#RMQSSL: false
+#RMQheartbeatfreq: 30
+
+#RMQinternalpass: "security"

@@ -1,0 +1,16 @@
+clientport: 9001
+clientaddr: 172.19.0.3
+updateport: 8080
+updateaddr: 172.19.0.3
+mediationport: 9002
+mediationaddr: 172.19.0.3
+
+intercept-config-file: /etc/openli/running-intercept-config.yaml
+
+#tlscert: <TLSCERT>
+#tlskey: <TLSKEY>
+#tlsca: <TLSCA>
+
+#restauthdb: /var/lib/openli/provauth.db
+#restauthkey: <RESTAUTHKEY>
+
