@@ -1,0 +1,52 @@
+version: '3'
+services:
+  nr_ue1:
+    image: docker_ueransim
+    container_name: nr_ue_1
+    stdin_open: true
+    tty: true
+    volumes:
+      - ./ueransim:/mnt/ueransim
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+      - ~/.config/pulse:/pulseaudio/.config/pulse
+    env_file:
+      - .env
+    environment:
+      - COMPONENT_NAME=ueransim-ue-1
+      - PULSE_SERVER=docker.for.mac.localhost
+    expose:
+      - "4997/udp"
+    cap_add:
+      - NET_ADMIN
+    privileged: true
+    networks:
+      default:
+        ipv4_address: ${NR_UE_IP_1}
+  nr_ue2:
+    image: docker_ueransim
+    container_name: nr_ue_2
+    stdin_open: true
+    tty: true
+    volumes:
+      - ./ueransim:/mnt/ueransim
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+      - ~/.config/pulse:/pulseaudio/.config/pulse
+    env_file:
+      - .env
+    environment:
+      - COMPONENT_NAME=ueransim-ue-2
+      - PULSE_SERVER=docker.for.mac.localhost
+    expose:
+      - "4997/udp"
+    cap_add:
+      - NET_ADMIN
+    privileged: true
+    networks:
+      default:
+        ipv4_address: ${NR_UE_IP_2}
+networks:
+  default:
+    name: open5gs_default
+    external: true

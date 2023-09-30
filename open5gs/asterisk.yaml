@@ -1,0 +1,23 @@
+version: '3'
+services:
+  asterisk:
+    build: ./asterisk
+    image: asterisk
+    container_name: asterisk
+    env_file:
+      - ../.env
+    volumes:
+      - ./asterisk:/mnt/asterisk
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    command: bash
+    entrypoint: /mnt/asterisk/start.sh
+    ports:
+      - "5060:5060/udp"
+    networks:
+      default:
+        ipv4_address: ${ASTERISK_IP}
+networks:
+  default:
+    name: open5gs_default
+    external: true
