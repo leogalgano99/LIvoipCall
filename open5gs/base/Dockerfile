@@ -27,7 +27,6 @@
 FROM ubuntu:focal as builder
 
 ENV DEBIAN_FRONTEND=noninteractive
-ENV LD_LIBRARY_PATH=/open5gs/install/lib/x86_64-linux-gnu
 
 # Install updates and dependencies
 RUN apt-get update && \
@@ -61,22 +60,25 @@ RUN apt-get update && \
         libidn11-dev \
         libtalloc-dev
 
-RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - && apt-get install -y nodejs
+RUN mkdir -p /etc/apt/keyrings
+RUN curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg && \
+    NODE_MAJOR=20 && \
+    echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_$NODE_MAJOR.x nodistro main" | tee /etc/apt/sources.list.d/nodesource.list && \
+    apt-get update && apt install nodejs -y
 
 # Get open5gs code and install
 RUN git clone --recursive https://github.com/open5gs/open5gs && cd open5gs && \
-    git checkout main && meson build --prefix=`pwd`/install && \
+    git checkout 0abfb204ea2c1c5d677e7e99667f018599924f0e && meson build --prefix=`pwd`/install && \
     ninja -C build && cd build && ninja install && \
     mkdir -p /open5gs/install/include
 
 # Building WebUI of open5gs
-RUN cd open5gs/webui && npm clean-install && npm run build
+RUN cd open5gs/webui && npm ci
 
 # Build final image
 FROM ubuntu:focal
 
 ENV DEBIAN_FRONTEND=noninteractive
-ENV LD_LIBRARY_PATH=/open5gs/install/lib/x86_64-linux-gnu
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
@@ -98,13 +100,19 @@ RUN apt-get update && \
         python3-setuptools \
         python3-wheel \
         python3-pip \
-        iptables && \
+        iptables \
+        iperf \
+        tshark \
+        gnupg && \
     apt-get autoremove -y && apt-get autoclean
 
 RUN pip3 install click
 
-RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - && apt-get install -y nodejs && \
-    apt-get remove -y curl && apt-get autoremove -y && apt-get autoclean
+RUN mkdir -p /etc/apt/keyrings
+RUN curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg && \
+    NODE_MAJOR=20 && \
+    echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_$NODE_MAJOR.x nodistro main" | tee /etc/apt/sources.list.d/nodesource.list && \
+    apt-get update && apt install nodejs -y
 
 RUN update-ca-certificates
 
