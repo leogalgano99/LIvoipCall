@@ -8,17 +8,17 @@ cd ../ueransim
 docker build --no-cache --force-rm -t docker_ueransim . && \
 
 cd ..
+set -a 
+source .env
+docker-compose build --no-cache && \
 # Mostra un menu con due opzioni
 PS3="Select an option: "
-options=("ARM" "Windows AMD64" "Exit")
+options=("ARM" "AMD64" "Exit")
 
 select choice in "${options[@]}"; do
     case $choice in
         1)
             echo "You chose the installation for ARM processors"
-            set -a 
-            source .env
-            docker-compose build --no-cache && \
             cd ../openli-training-lab
             cd ./agency
             docker build --platform linux/amd64 --no-cache --force-rm -t openli-agency . && \
@@ -31,8 +31,6 @@ select choice in "${options[@]}"; do
             ;;
         2)
             echo "You chose the installation for AMD64 processors"
-            call env.bat
-            docker-compose build --no-cache && \
             cd ../openli-training-lab
             cd ./agency
             docker build --no-cache --force-rm -t openli-agency . && \
