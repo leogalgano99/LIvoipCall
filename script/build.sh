@@ -21,8 +21,8 @@ options=("ARM" "AMD64" "Exit")
 
 select choice in "${options[@]}"; do
     case $choice in
-        1)
-            echo "You chose the installation for ARM processors"
+        "ARM")
+            echo "You chose the installation for AppleSilicon processors"
             cd ../openli-training-lab
             cd ./agency
             docker build --platform linux/amd64 --no-cache --force-rm -t openli-agency . && \
@@ -33,8 +33,9 @@ select choice in "${options[@]}"; do
             cd ../provisioner
             docker build --platform linux/amd64 --no-cache --force-rm -t openli-provisioner . && \
             echo "OpenLI build completed"
+            break;
             ;;
-        2)
+        "AMD64")
             echo "You chose the installation for AMD64 processors"
             cd ../openli-training-lab
             cd ./agency
@@ -46,8 +47,9 @@ select choice in "${options[@]}"; do
             cd ../provisioner
             docker build --no-cache --force-rm -t openli-provisioner . && \
             echo "OpenLI build completed"
+            break;
             ;;
-        3)
+        "Exit")
             echo "Exiting..."
             break
             ;;
@@ -56,10 +58,6 @@ select choice in "${options[@]}"; do
             ;;
     esac
 done
-cd ../../open5gs/
-docker-compose build --no-cache && \
-cd ./asterisk
-docker build -t asterisk .
 
 echo "Build completed"
 
