@@ -4,29 +4,33 @@ cd ../open5gs
 
 echo "Halting existing running containers..."
 
-if [ "$( docker ps -q -f name=upf )" ]; then
-        docker compose down
+if [ "$( sudo docker ps -q -f name=upf )" ]; then
+        sudo docker compose down
 fi
 
-if [ "$( docker ps -q -f name=nr_ue_1 )" ] || [ "$( docker ps -q -f name=nr_ue_2 )" ]; then
-        docker compose -f nr-ue.yaml down
+if [ "$( sudo docker ps -q -f name=nr_ue_1 )" ] || [ "$( sudo docker ps -q -f name=nr_ue_2 )" ]; then
+        sudo docker compose -f nr-ue.yaml down
 fi
 
-if [ "$( docker ps -q -f name=nr_gnb_1)" ] || [ "$( docker ps -q -f name=nr_gnb_2 )" ]; then
-        docker compose -f nr-gnb.yaml down
+if [ "$( sudo docker ps -q -f name=nr_gnb_1)" ] || [ "$( sudo docker ps -q -f name=nr_gnb_2 )" ]; then
+        sudo docker compose -f nr-gnb.yaml down
 fi
 
 echo "All done!"
 
 echo "[OPEN5GS] Starting docker containers..."
+Hostip="$(ip -4 -o a | awk '{print $4}' | cut -d/ -f1 | grep -v 127.0.0.1 | head -n1)"
 set -a
 source .env
 
-docker compose up -d && \
-sleep 10 && \
-docker compose -f nr-gnb.yaml up -d  && \
+sudo docker compose up -d && \
 sleep 5 && \
-docker compose -f nr-ue.yaml up -d  && \
+sudo docker compose -f nr-gnb.yaml up -d  && \
+sleep 5 && \
+sudo docker compose -f nr-ue.yaml up -d  && \
+
+echo "[PULSEAUDIO] start PULSEAUDIO over TCP"
+pactl load-module module-native-protcol-tcp port=34567 auth-ip-acl=$TEST_NETWORK
 
 cd ../openli-training-lab && ./setup.sh
 
@@ -34,8 +38,8 @@ cd .. && \
 sleep 2 && \
 cd ./pythKeyEscrow && \
 ./copy_key.sh && \
-docker exec -it nr_ue_1 ./network_config.sh && \
-docker exec -it nr_ue_2 ./network_config.sh && \
+sudo docker exec -it nr_ue_1 ./network_config.sh && \
+sudo docker exec -it nr_ue_2 ./network_config.sh && \
 
 cd ../script && \
 ./configure_openli.sh && \

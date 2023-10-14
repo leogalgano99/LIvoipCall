@@ -9,12 +9,11 @@ services:
       - ./ueransim:/mnt/ueransim
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
-      - ~/.config/pulse:/pulseaudio/.config/pulse
     env_file:
       - .env
     environment:
       - COMPONENT_NAME=ueransim-ue-1
-      - PULSE_SERVER=docker.for.mac.localhost
+      - PULSE_SERVER=tcp:${HOST_IP}:34567
     expose:
       - "4997/udp"
     cap_add:
@@ -32,12 +31,11 @@ services:
       - ./ueransim:/mnt/ueransim
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
-      - ~/.config/pulse:/pulseaudio/.config/pulse
     env_file:
       - .env
     environment:
       - COMPONENT_NAME=ueransim-ue-2
-      - PULSE_SERVER=docker.for.mac.localhost
+      - PULSE_SERVER=tcp:${HOST_IP}:34567
     expose:
       - "4997/udp"
     cap_add:
