@@ -1,5 +1,4 @@
 #!/bin/bash
-Hostip="$(ip -4 -o a | awk '{print $4}' | cut -d/ -f1 | grep -v 127.0.0.1 | head -n1)"
 
 cd ../open5gs 
 
@@ -18,7 +17,7 @@ if [ "$( sudo docker ps -q -f name=nr_gnb_1)" ] || [ "$( sudo docker ps -q -f na
 fi
 
 echo "All done!"
-
+HOST_IP="$(ip -4 -o a | awk '{print $4}' | cut -d/ -f1 | grep -v 127.0.0.1 | head -n1)"
 echo "[OPEN5GS] Starting docker containers..."
 set -a
 source .env
