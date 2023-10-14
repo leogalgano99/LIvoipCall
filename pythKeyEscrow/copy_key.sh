@@ -4,7 +4,7 @@
 if ! command -v pip &>/dev/null; then
     echo "pip non è installato. Eseguire l'installazione di pip o configurare il tuo ambiente Python."
     sudo apt-get update
-    sudo apt-get install -y python3-pipfi
+    sudo apt-get install -y python3-pip
 fi
 # Verifica se le librerie Python sono installate
 if ! python3 -c "import tate_bilinear_pairing, pycryptodump" 2>/dev/null; then
