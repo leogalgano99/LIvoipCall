@@ -45,23 +45,9 @@ sed -i 's|UE_IPV4_INTERNET_TUN_IP|'$UE_IPV4_INTERNET_TUN_IP'|g' install/etc/open
 sed -i 's|UE_IPV4_IMS_TUN_IP|'$UE_IPV4_IMS_TUN_IP'|g' install/etc/open5gs/upf.yaml
 sed -i 's|UPF_ADVERTISE_IP|'$UPF_ADVERTISE_IP'|g' install/etc/open5gs/upf.yaml
 
-# iptables -t mangle -N DUPLICATE_TRAFFIC
-
-# # Imposta una regola per escludere il traffico con indirizzo IP sorgente 192.168.65.0/24
-# iptables -t mangle -A DUPLICATE_TRAFFIC -s 192.168.65.0/24 -j ACCEPT
-
-# # Imposta una regola per escludere il traffico con indirizzo IP di destinazione 192.168.65.0/24
-# iptables -t mangle -A DUPLICATE_TRAFFIC -d 192.168.65.0/24 -j ACCEPT
-
-# # Imposta le regole per duplicare il traffico in ingresso solo sull'interfaccia specifica (ad es. -i ogstun)
-# iptables -t mangle -A PREROUTING -i ogstun -j DUPLICATE_TRAFFIC
-
-# # Imposta le regole per duplicare il traffico in uscita solo sull'interfaccia specifica (ad es. -o ogstun)
-# iptables -t mangle -A POSTROUTING -o ogstun -j DUPLICATE_TRAFFIC
-
-# # Imposta le regole per duplicare il traffico in ingresso solo sull'interfaccia specifica (ad es. -i ogstun)
-# iptables -t mangle -A DUPLICATE_TRAFFIC -i ogstun -j TEE --gateway $COLLECTOR_IP_OPEN5GS
-# iptables -t mangle -A DUPLICATE_TRAFFIC -o ogstun -j TEE --gateway $COLLECTOR_IP_OPEN5GS
+# # Imposta una regola per duplicare il traffico da e per la rete 10.45.0.0/24 al Collector
+iptables -t mangle -A FORWARD -s 10.45.0.0/24 -i eth0 -j TEE --gateway $COLLECTOR_IP_OPEN5GS
+iptables -t mangle -A FORWARD -d 10.45.0.0/24 -i eth0 -j TEE --gateway $COLLECTOR_IP_OPEN5GS
 
 # Sync docker time
 #ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone

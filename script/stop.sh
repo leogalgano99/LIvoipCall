@@ -1,31 +1,31 @@
 echo "Halting existing running containers..."
 
-if [ "$( docker ps -q -f name=agency )" ]; then
-        docker container stop agency
+if [ "$( sudo docker  ps -q -f name=agency )" ]; then
+        sudo docker  container stop agency
 fi
 
-if [ "$( docker ps -q -f name=provisioner )" ]; then
-        docker container stop provisioner
+if [ "$( sudo docker  ps -q -f name=provisioner )" ]; then
+        sudo docker  container stop provisioner
 fi
 
-if [ "$( docker ps -q -f name=mediator )" ]; then
-        docker container stop mediator
+if [ "$( sudo docker  ps -q -f name=mediator )" ]; then
+        sudo docker  container stop mediator
 fi
 
-if [ "$( docker ps -q -f name=collector )" ]; then
-        docker container stop collector
+if [ "$( sudo docker  ps -q -f name=collector )" ]; then
+        sudo docker  container stop collector
 fi
 
 cd ../open5gs
 
-if [ "$( docker ps -q -f name=upf )" ]; then
-        docker compose down
+if [ "$( sudo docker  ps -q -f name=upf )" ]; then
+        sudo docker  compose down
 fi
 
-if [ "$( docker ps -q -f name=nr_ue_1 )" ] || [ "$( docker ps -q -f name=nr_ue_2 )" ]; then
-        docker compose -f nr-ue.yaml down
+if [ "$( sudo docker  ps -q -f name=nr_ue_1 )" ] || [ "$( sudo docker  ps -q -f name=nr_ue_2 )" ]; then
+        sudo docker  compose -f nr-ue.yaml down
 fi
 
-if [ "$( docker ps -q -f name=nr_gnb_1)" ] || [ "$( docker ps -q -f name=nr_gnb_2 )" ]; then
-        docker compose -f nr-gnb.yaml down
+if [ "$( sudo docker  ps -q -f name=nr_gnb_1)" ] || [ "$( sudo docker  ps -q -f name=nr_gnb_2 )" ]; then
+        sudo docker  compose -f nr-gnb.yaml down
 fi

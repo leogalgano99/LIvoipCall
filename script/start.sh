@@ -37,8 +37,6 @@ cd .. && \
 sleep 2 && \
 cd ./pythKeyEscrow && \
 ./copy_key.sh && \
-sudo docker exec -it nr_ue_1 ./network_config.sh && \
-sudo docker exec -it nr_ue_2 ./network_config.sh && \
 
 cd ../script && \
 ./configure_openli.sh && \
