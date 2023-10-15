@@ -3,7 +3,9 @@
 sudo docker  exec -it agency ./util/decrypt.sh
 
 giorno_mese=$(date +"%d-%m_%H-%M")
-cd ../pcap
+cd ..
+mkdir pcap
+cd pcap
 mkdir "$giorno_mese"                 
 cd ..
 
