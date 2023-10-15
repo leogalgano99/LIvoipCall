@@ -20,7 +20,7 @@ echo "All done!"
 echo "[OPEN5GS] Starting docker containers..."
 set -a
 source .env
-HOST_IP="$(ip -4 -o a | awk '{print $4}' | cut -d/ -f1 | grep -v 127.0.0.1 | head -n1)"
+#HOST_IP="$(ip -4 -o a | awk '{print $4}' | cut -d/ -f1 | grep -v 127.0.0.1 | head -n1)"
 
 sudo docker compose up -d && \
 sleep 5 && \
@@ -29,7 +29,7 @@ sleep 5 && \
 sudo docker compose -f nr-ue.yaml up -d  && \
 source .env
 echo "[PULSEAUDIO] start PULSEAUDIO over TCP"
-pactl load-module module-native-protcol-tcp port=34567 auth-ip-acl=$TEST_NETWORK
+#pactl load-module module-native-protcol-tcp port=34567 auth-ip-acl=$TEST_NETWORK
 
 cd ../openli-training-lab && ./setup.sh
 
