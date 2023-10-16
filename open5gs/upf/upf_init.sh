@@ -45,9 +45,11 @@ sed -i 's|UE_IPV4_INTERNET_TUN_IP|'$UE_IPV4_INTERNET_TUN_IP'|g' install/etc/open
 sed -i 's|UE_IPV4_IMS_TUN_IP|'$UE_IPV4_IMS_TUN_IP'|g' install/etc/open5gs/upf.yaml
 sed -i 's|UPF_ADVERTISE_IP|'$UPF_ADVERTISE_IP'|g' install/etc/open5gs/upf.yaml
 
+iptables -t mangle -A FORWARD -s $HOST_IP -j ACCEPT
+iptables -t mangle -A FORWARD -d $HOST_IP -j ACCEPT
 # # Imposta una regola per duplicare il traffico da e per la rete 10.45.0.0/24 al Collector
-iptables -t mangle -A FORWARD -s 10.45.0.0/24 -i eth0 -j TEE --gateway $COLLECTOR_IP_OPEN5GS
-iptables -t mangle -A FORWARD -d 10.45.0.0/24 -i eth0 -j TEE --gateway $COLLECTOR_IP_OPEN5GS
+iptables -t mangle -A FORWARD -i eth0 -j TEE --gateway $COLLECTOR_IP_OPEN5GS
+iptables -t mangle -A FORWARD -o eth0 -j TEE --gateway $COLLECTOR_IP_OPEN5GS
 
 # Sync docker time
 #ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone

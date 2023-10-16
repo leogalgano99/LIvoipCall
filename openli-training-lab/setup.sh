@@ -76,6 +76,7 @@ sudo docker  exec -it mediator stop_rsyslog.sh
 
 sudo docker  cp ./collector-config.yaml collector:/etc/openli/collector-config.yaml
 sudo docker  cp ./collector-start.sh collector:/home/openli-coll/collector-start.sh
-sudo docker  exec -it collector stop_rsyslog.sh 
+sudo docker  exec -it collector stop_rsyslog.sh ù
+sudo docker exec --privileged collector ip route del 172.22.0.0/24
 
 echo "OpenLI lab setup complete!"
