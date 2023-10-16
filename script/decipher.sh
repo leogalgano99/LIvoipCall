@@ -26,3 +26,5 @@ sudo docker  exec -it agency rm /home/openli-testagency/CC_cipher.wav
 sudo docker  exec -it collector rm /home/openli-coll/POI.pcap
 sudo docker  exec -it mediator rm /home/openli-med/MDF.pcap
 sudo docker  exec -it upf rm /open5gs/UPF.pcap
+
+sudo chmod +r ./pcap/"$giorno_mese"/*.pcap
