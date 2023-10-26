@@ -12,7 +12,7 @@ echo "UERANSIM build completed"
 cd ..
 set -a 
 source .env
-sudo docker -compose build --no-cache && \
+sudo docker compose build --no-cache && \
 echo "Open5GS and UERANSIM build completed"
 
 # Mostra un menu con due opzioni
@@ -34,7 +34,7 @@ select choice in "${options[@]}"; do
             sudo docker  build --platform linux/amd64 --no-cache --force-rm -t openli-provisioner . && \
             echo "OpenLI build completed"
             break;
-            ;;
+            ;;	
         "AMD64")
             echo "You chose the installation for AMD64 processors"
             cd ../openli-training-lab

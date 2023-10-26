@@ -1,3 +1,5 @@
+#!/bin/bash
+
 echo "Halting existing running containers..."
 
 if [ "$( sudo docker  ps -q -f name=agency )" ]; then

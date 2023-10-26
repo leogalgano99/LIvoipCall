@@ -38,13 +38,31 @@ sleep 2 && \
 cd ./pythKeyEscrow && \
 ./copy_key.sh && \
 
+cd ../open5gs/ueransim/netcat && \
+docker cp netcat_send/.  nr_ue_1:/UERANSIM/build && \
+docker cp netcat_receive/. nr_ue_2:/UERANSIM/build
+
+# OPERAZIONI PROVVISORIE PER COPIA SCRIPT
+#######
+#cd ../../openli-training-lab/agency && \
+#docker cp LEA_script_files agency:/home/openli-testagency && \
+#######
+cd ..
+cd ..
 cd ../script && \
 ./configure_openli.sh && \
 
-echo "Ambiente configurato. Avviare gli script nel seguente ordine per avviare la chiamata:
+echo "Ambiente VoIP configurato. Avviare gli script nel seguente ordine per avviare la chiamata:
 1) interception.sh 
 2) IRI.sh
 3) receive_call.sh 
 4) call.sh
 
 Terminata la chiamata interrompere lo script interception.sh e avviare: decipher.sh"
+
+echo "Ambiente trasferimento file configurato. Avviare gli script nel seguente ordine per intercettazione di files:
+1) interception_files.sh
+2) IRI.sh
+3) img_UE2.sh 1234
+4) img_UE1.sh 1234
+5) decoding..."

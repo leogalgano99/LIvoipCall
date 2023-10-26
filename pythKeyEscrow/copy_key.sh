@@ -24,6 +24,13 @@ fi
 python3 generate_keys.py
 
 sleep 5
+
+#VoIP
 sudo docker  cp keyA.txt nr_ue_1:/UERANSIM/build/
 sudo docker  cp keyB.txt nr_ue_2:/UERANSIM/build/
 sudo docker  cp keyLEA.txt agency:/home/openli-testagency
+
+#Files
+sudo docker cp keyA_files.txt nr_ue_1:/UERANSIM/build/
+sudo docker cp keyB_files.txt nr_ue_2:/UERANSIM/build/
+sudo docker cp keyLEA_files.txt agency:/home/openli-testagency

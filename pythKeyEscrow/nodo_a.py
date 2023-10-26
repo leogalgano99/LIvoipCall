@@ -20,6 +20,13 @@ def nodoA_key(r1, r2, idA, idB):
 
     ka = pairing(vs_hid, h_idb)            #K = e(Pa, H(idB))
     #print (ka)
+    
+    kab, kab_files = pairing_to_key(ka)    
+    print(f"Le chiavi UE sono: {kab} (VoIP), {kab_files} (files)")
+    return kab, kab_files
 
-    kab = pairing_to_key(ka)
-    return kab
+#################################
+#Parte del Codice solo VoiP
+################################
+#    kab = pairing_to_key(ka)
+#    return kab
