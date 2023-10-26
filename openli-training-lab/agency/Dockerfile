@@ -41,5 +41,23 @@ RUN apt-get -y update && apt-get -y install \
     cd ./srtp-decrypt && \
     make
     
+RUN apt-get -y install python3.pip && \ 
+    pip install --upgrade pip && \
+    pip install libnum && \
+    pip install pycryptodome && \ 
+    pip install tate_bilinear_pairing && \
+    pip install scapy
+
+    
+RUN apt-get -y update && apt-get -y install \
+    build-essential \
+    git && \
+    curl -1sLf 'https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh' | bash && \
+    (echo; echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"') >> /home/$USER/.bashrc && \
+    eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)" && \
+    brew install gcc && \
+    brew install pcapplusplus
+    
 COPY README /home/openli-testagency
 COPY util /home/openli-testagency/util
+COPY util/util_files /home/openli-testagency/util/util_files
