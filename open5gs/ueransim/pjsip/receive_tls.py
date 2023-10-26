@@ -110,7 +110,8 @@ def main():
     print("\n---- Call menu ----")
     print("Stato chiamata: ", current_call.getInfo().stateText if current_call else "Nessuna chiamata attiva")
     print("rispondi: a, chiudi: h, esci: q\n")
-    user_input = sys.stdin.readline().rstrip('\r\n')
+    # user_input = sys.stdin.readline().rstrip('\r\n')
+    user_input="a"
     if user_input == "h":
       if not current_call:
         print("Non c'è nessuna chiamata attiva\n")

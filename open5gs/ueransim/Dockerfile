@@ -43,8 +43,9 @@ RUN apt-get update && \
         ifupdown \
         iputils-ping \
         wget \
-        libssl-dev
-
+        libssl-dev \
+        netcat 
+        
 RUN version=3.26 && \
     build=0 && \
     mkdir ~/temp && \
@@ -86,6 +87,12 @@ RUN apt-get update && \
         iputils-ping && \
     apt-get -y update && apt-get -y upgrade && \
     apt-get autoremove -y && apt-get autoclean
+    
+RUN apt-get -y install python3.pip && \ 
+    pip install --upgrade pip && \
+    pip install libnum && \
+    pip install pycryptodome && \
+    pip install tate_bilinear_pairing 
 
 # Crea la cartella /root/.local/share/linphone installa pulseaudio
 RUN mkdir -p /root/.local/share/linphone && \
@@ -116,13 +123,14 @@ COPY network_config.sh .
 COPY pjsip/ .
 COPY sample/ ./sample
 COPY ueransim_image_init.sh /
+COPY netcat/ .
 
 # Installa pjsip
 RUN chmod +x /UERANSIM/build nr-binder && \
     mkdir /path && mkdir /path/to && \
     apt-get update && \
     apt-get install -y --reinstall ca-certificates && \
-    apt-get install -y gpp g++ make binutils && \
+    apt-get install -y gpp g++ make binutils netcat && \
     curl -o /path/to/ca-bundle.crt https://curl.se/ca/cacert.pem && \
     git config --global http.sslCAInfo /path/to/ca-bundle.crt && \
     git clone https://github.com/pjsip/pjproject.git && \
@@ -138,5 +146,5 @@ RUN chmod +x /UERANSIM/build nr-binder && \
     cd ./pjsip-apps/src/swig/python && \
     make && \
     make install
-
+    
 CMD /ueransim_image_init.sh

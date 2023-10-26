@@ -48,8 +48,17 @@ sed -i 's|UPF_ADVERTISE_IP|'$UPF_ADVERTISE_IP'|g' install/etc/open5gs/upf.yaml
 iptables -t mangle -A FORWARD -s $HOST_IP -j ACCEPT
 iptables -t mangle -A FORWARD -d $HOST_IP -j ACCEPT
 # # Imposta una regola per duplicare il traffico da e per la rete 10.45.0.0/24 al Collector
-iptables -t mangle -A FORWARD -i eth0 -j TEE --gateway $COLLECTOR_IP_OPEN5GS
+cd ../script
+
 iptables -t mangle -A FORWARD -o eth0 -j TEE --gateway $COLLECTOR_IP_OPEN5GS
+iptables -t mangle -A FORWARD -i eth0 -j TEE --gateway $COLLECTOR_IP_OPEN5GS
+#iptables -t mangle -A POSTROUTING -o eth0 -j TEE --gateway $COLLECTOR_IP_OPEN5GS
+
+####################################
+#Aggiunta per invio file
+###################################
+# imposta una regola per duplicare il traffico per la rete 10.45.0.0/24 al collector
+iptables -t mangle -A FORWARD -o ogstun -j TEE --gateway $COLLECTOR_IP_OPEN5GS
 
 # Sync docker time
 #ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone

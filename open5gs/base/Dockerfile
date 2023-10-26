@@ -103,6 +103,7 @@ RUN apt-get update && \
         iptables \
         iperf \
         tshark \
+        libtrace-tools \
         gnupg && \
     apt-get autoremove -y && apt-get autoclean
 

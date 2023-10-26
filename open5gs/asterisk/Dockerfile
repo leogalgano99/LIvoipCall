@@ -12,7 +12,9 @@ RUN apt-get update && \
         -y asterisk && \
     apt-get autoremove -y && apt-get autoclean && \
     cd /usr/src && \
-    wget http://downloads.asterisk.org/pub/telephony/asterisk/asterisk-16-current.tar.gz && \
+    #wget http://downloads.asterisk.org/pub/telephony/asterisk/asterisk-16-current.tar.gz && \
+    wget http://downloads.asterisk.org/pub/telephony/asterisk/asterisk-18-current.tar.gz && \
+    #wget http://downloads.asterisk.org/pub/telephony/asterisk/asterisk-21.0.0.tar.gz && \
     mkdir /etc/asterisk/keys
 
 COPY ./sip.conf /etc/asterisk/sip.conf
