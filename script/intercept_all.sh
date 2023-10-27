@@ -7,8 +7,8 @@ cd ./pythKeyEscrow && \
 echo "$password"| sudo -S ./copy_key.sh && \
 
 cd ../open5gs/ueransim/netcat && \
-docker cp netcat_send/.  nr_ue_1:/UERANSIM/build/  && \
-docker cp netcat_receive/. nr_ue_2:/UERANSIM/build/
+sudo docker cp netcat_send/.  nr_ue_1:/UERANSIM/build/  && \
+sudo docker cp netcat_receive/. nr_ue_2:/UERANSIM/build/
 
 cd ../../../script && \
 
